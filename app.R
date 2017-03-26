@@ -9,18 +9,19 @@
 
 library(shiny)
 #Utility function for serverside calculation
-doseCalculator <- function(weight, totalDose, solCon, tpd = NULL){
+doseCalculator <- function(weight, totalDose, solCon, tpd = 0){
   LBCON <- 2.2 #Conversion factor
   kilo <- weight/LBCON #Convert pounds to kilos
   totalDailyDose <- totalDose*kilo
   overallSolution<- totalDailyDose * solCon
-  if(is.null(tpd))
+  if(tpd == 0)
   {
-    print(overallSolution)
+    sprintf("Doseage in mg/ml %.3f", overallSolution)
     
   }else{
     endDose <- overallSolution/tpd
-    print(endDose)}
+    sprintf("Doseage with %d times per day calculated is %.3f", tpd,endDose)
+    }
 }
 
 # Define UI for dose application
@@ -37,7 +38,7 @@ ui <- fluidPage(
                      value = 0),
          numericInput('doseT', 'Total Dose (mg)', value = 0),
          numericInput('solCon', 'Solution Concentration (mg/ml)', value = 0),
-         numericInput('tpd', 'Times Per Day', value = NULL), 
+         numericInput('tpd', 'Times Per Day', value = 0), 
          actionButton("calc", "Calculate")
       ),
       
