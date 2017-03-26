@@ -46,7 +46,7 @@ ui <- fluidPage(
       
       # Print the output of the function
       wellPanel(
-         h2(verbatimTextOutput("total"))
+         verbatimTextOutput("total")
       )
    )
 )
@@ -55,7 +55,7 @@ ui <- fluidPage(
 server <- function(input, output) {
    
   ntext <- eventReactive(input$calc, {
-    doseCalculator(input$weight,input$doseT,input$solCon, input$tpd) #Actual application logic
+    doseCalculator(input$weight,input$doseT,input$solCon, input$tpd) #Calling dose calculator
   })
    output$total <- renderPrint({
       ntext()
